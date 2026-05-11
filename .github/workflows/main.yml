@@ -1,7 +1,7 @@
 name: "Build My-iOS-App"
 
 on:
-  workflow_dispatch: # Manual နှိပ်ပြီး Build ဆွဲရန်
+  workflow_dispatch:
 
 jobs:
   build:
@@ -19,19 +19,21 @@ jobs:
         run: |
           mkdir -p build
           xcodebuild archive \
-            -project HelloWorld.xcoderproj \
+            -project HelloWorld.xcodeproj \
             -scheme My-iOS-App \
             -archivePath build/My-iOS-App.xcarchive \
             -destination "generic/platform=iOS" \
             CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_IDENTITY="" \
+            AD_HOC_CODE_SIGNING_ALLOWED=YES
 
       - name: Export IPA
         run: |
           xcodebuild -exportArchive \
             -archivePath build/My-iOS-App.xcarchive \
             -exportOptionsPlist ExportOptions.plist \
-            -exportPath build/ipa \
+            -exportPath build/output \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO
 
@@ -39,4 +41,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: My-iOS-App-Release
-          path: build/ipa/*.ipa
+          path: build/output/
