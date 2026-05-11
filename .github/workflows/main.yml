@@ -36,7 +36,7 @@ jobs:
         run: |
           mkdir -p build
           xcodebuild archive \
-            -project HelloWorld/HelloWorld.xcodeproj \
+            -project HelloWorld.xcodeproj \
             -scheme My-iOS-App \
             -archivePath build/My-iOS-App.xcarchive \
             -destination "generic/platform=iOS" \
